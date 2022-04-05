@@ -72,7 +72,7 @@ estimated by maximum simulated likelihood.
 {dlgtab:Other options}
 
 {phang}
-{opt cost} specifies that {opt cnsf} fits a cost frontier model.
+{opt cost} specifies that {opt rfrontier} fits a cost frontier model.
 
 {dlgtab:Reporting}
 
