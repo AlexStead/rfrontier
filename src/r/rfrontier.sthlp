@@ -32,6 +32,7 @@
 {synopt :{cmdab:u:distribution(}{opt h:normal)}}	Half normal distribution for the inefficiency term, the default{p_end}
 {synopt :{cmdab:u:distribution(}{opt e:xponential)}}	Exponential distribution for the inefficiency term{p_end}
 {synopt :{cmdab:u:distribution(}{opt r:ayleigh)}}	Rayleigh distribution for the inefficiency term{p_end}
+{synopt :{cmdab:df:()}}	specify a value at which to fix the degrees of freedom parameter; only with v(student){p_end}
 
 {syntab:Starting values}
 {synopt :{opt svfront:ier()}}specify a 1 X k vector of initial values for the coefficients of the frontier{p_end}
