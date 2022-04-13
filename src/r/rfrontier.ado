@@ -57,11 +57,11 @@ program rfrontier, eclass
 		global cost_s `s'
 		global nsimulations `nsimulations'
 		local nsimshalf = `nsimulations'/2
-		marksample touse
 		mlopts mlopts, `options'
+		marksample touse
 		gettoken yvar xvars : varlist
 		quietly {
-			capture frontier `yvar' `xvars', `cost'
+			capture frontier `yvar' `xvars' if `touse', `cost'
 		}
 		scalar _b_cons=_b[_cons]
 		scalar `_sigma_v' 					=	ln(e(sigma_v))
@@ -85,7 +85,7 @@ program rfrontier, eclass
 		}
 		local coleq `coleq' lnsigma_v lnsigma_u
 		if "`vdistribution'"=="student" local coleq `coleq' lndf
-		capture if "`vdistribution'"=="student" tregress `yvar' `xvars'
+		capture if "`vdistribution'"=="student" tregress `yvar' `xvars' if `touse'
 		if "`vdistribution'"=="student" scalar `_lndf'		=	_b[lndf:_cons]
 		else scalar `_lndf'					=	0
 		if `df' > 0 {
