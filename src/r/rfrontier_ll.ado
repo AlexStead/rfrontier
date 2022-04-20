@@ -29,7 +29,7 @@ program rfrontier_ll
 						if "$udistribution"=="exponential" local u_`q'		=	-exp(`lnsigma_u')*ln(`f1_`q'')
 						if "$udistribution"=="rayleigh" local u_`q'		=	exp(`lnsigma_u')*sqrt(-2*ln(1-`f1_`q''))
 						if "$vdistribution"=="student" replace `fj'		=	`fj'+1/exp(`lnsigma_v')*tden(exp(`lndf'),($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))
-						if "$vdistribution"=="logistic" replace `fj'		=	`fj'+1/exp(`lnsigma_v')*exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))/(1+exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')))^2
+						if "$vdistribution"=="logistic" replace `fj'		=	`fj'+1/exp(`lnsigma_v')*exp(-($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))/(1+exp(-($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')))^2
 						if "$vdistribution"=="cauchy" replace `fj'		=	`fj'+1/exp(`lnsigma_v')*tden(1,($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))
 				}
 				mlsum `lnf' 								=	ln(`fj'/$nsimulations)
@@ -54,6 +54,10 @@ program rfrontier_ll
 						if "$vdistribution"=="student" replace `sum_dgdsv'	=	`sum_dgdsv'+(exp(`lndf')+1)/exp(`lndf')*1/exp(`lnsigma_v')*(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2*(1+1/exp(`lndf')*(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2)^(-(exp(`lndf')+3)/2)
 						if "$vdistribution"=="student" replace `sum_dgdsu'	=	`sum_dgdsu'-`s'*(exp(`lndf')+1)/exp(`lndf')*1/exp(`lnsigma_v')*($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')*(1+1/exp(`lndf')*(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2)^(-(exp(`lndf')+3)/2)*`dudsu'
 						if "$vdistribution"=="student" replace `sum_dgda'	=	`sum_dgda'-1/2*(1+1/exp(`lndf')*(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2)^(-(exp(`lndf')+1)/2)*(ln(1+1/exp(`lndf')*(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2)-(exp(`lndf')+1)*(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2/(exp(`lndf')^2*(1+1/exp(`lndf')*(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2)))
+						if "$vdistribution"=="logistic" replace `sum_g'		=	`sum_g'+exp(-($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))/(1+exp(-($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')))^2
+						if "$vdistribution"=="logistic" replace `sum_dgde'	=	`sum_dgde'+1/exp(`lnsigma_v')*(1-exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')))*exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))/(1+exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')))^3
+						if "$vdistribution"=="logistic" replace `sum_dgdsv'	=	`sum_dgdsv'-($ML_y1-`mu'+`s'*`u_`q'')/(exp(`lnsigma_v'))^2*(1-exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')))*exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))/(1+exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')))^3
+						if "$vdistribution"=="logistic" replace `sum_dgdsu'	=	`sum_dgdsu'+`s'*1/exp(`lnsigma_v')*(1-exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')))*exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))/(1+exp(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')))^3*`dudsu'						
 						if "$vdistribution"=="cauchy" replace `sum_g'		=	`sum_g'+(1+(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2)^(-1)
 						if "$vdistribution"=="cauchy" replace `sum_dgde'	=	`sum_dgde'-2/exp(`lnsigma_v')*($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v')*(1+(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2)^(-2)
 						if "$vdistribution"=="cauchy" replace `sum_dgdsv'	=	`sum_dgdsv'+2/exp(`lnsigma_v')*(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2*(1+(($ML_y1-`mu'+`s'*`u_`q'')/exp(`lnsigma_v'))^2)^(-2)
