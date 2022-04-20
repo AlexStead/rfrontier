@@ -65,6 +65,7 @@ program rfrontier, eclass
 		}
 		scalar _b_cons=_b[_cons]
 		scalar `_sigma_v' 					=	ln(e(sigma_v))
+		if "`vdistribution'"=="logistic" scalar `_sigma_v'	=	ln(e(sigma_v))+1/2*ln(3)-ln(_pi)
 		scalar `_sigma_u'					=	ln(e(sigma_u))
 		tempname b0 svfront
 		mat `b0' = e(b)
