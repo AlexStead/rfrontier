@@ -1,6 +1,6 @@
 # rfrontier
 ## Stata package for robust stochastic frontier analysis
-This facilitates estimation of stochastic frontier models with alternative distributional assumptions, including models with in which the noise terms follows a Student's t, Cauchy, or logistic distribution. The package can then be used to generate efficiency predictions and related postestimation outputs. The main purposes of this package are to enable easy implementation of some of the stochastic frontier specifications explored in publications I have co-authored, and to ease replication of some of the results reported in these publications.
+This facilitates estimation of stochastic frontier models with alternative distributional assumptions, including models with in which the noise terms follows a Student's t, Cauchy, or logistic distribution. The package can then be used to generate efficiency predictions, influence functions (for parameter estimates and for efficiency predictions) and related postestimation outputs. The main purposes of this package are to enable easy implementation of some of the stochastic frontier specifications explored in publications I have co-authored, and to ease replication of some of the results reported in these publications.
 
 ## Installation
 In order to install the command, enter the following commands into Stata (the first is unnecessary if you already have the `github` command installed):
