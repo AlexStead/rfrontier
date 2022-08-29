@@ -1,7 +1,7 @@
 program rfrontier_p
 	version 13.1
 	syntax newvarname [in] [if], [XB Residuals JLMS BC BS FN INFluence BCINFluence JLMSINFluence NSIMulations(integer 1000) BASE(real 3) BURN(real 10)]
-	local nopts : word count `residuals' `xb' `jlms' `bc' `bs' `fn' `influence'
+	local nopts : word count `residuals' `xb' `jlms' `bc' `bs' `fn' `influence' `bcinfluence' `jlmsinfluence'
 	local neffopts: word count `jlms' `bc' `fn' 
 	local ninfeffopts: word count `jlmsinfluence' `bcinfluence'
 	local ninfopts: word count `influence' `jlmsinfluence' `bcinfluence'
