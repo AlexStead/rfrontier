@@ -172,3 +172,8 @@ program Replay
 	syntax [, Level(cilevel)]
 	ml display, level(`level')
 end
+
+if `c(stata_version)' != 16 {
+qui findfile "hdraws.mata"
+  run "`r(fn)'"
+}
