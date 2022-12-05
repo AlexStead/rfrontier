@@ -1,10 +1,11 @@
-v 1.1.1
+v 1.1.2
 d rfrontier. robust stochastic frontier models
 d A.D. Stead, Institute for Transport Studies, University of Leeds
-d Distribution-Date:   20221202
+d Distribution-Date:   20221205
 f src/r/rfrontier.ado
 f src/r/rfrontier_ll.ado
 f src/r/rfrontier_p.ado
 f src/r/rfrontier.sthlp
 f src/r/rfrontier_postestimation.sthlp
 f src/l/lrfrontier.mlib
+f src/h/hdraws.mata
