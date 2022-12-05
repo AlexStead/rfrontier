@@ -174,6 +174,6 @@ program Replay
 end
 
 if `c(stata_version)' != 16 {
-qui findfile "hdraws.mata"
-  run "`r(fn)'"
+	qui findfile "hdraws.mata"
+	run "`r(fn)'"
 }
