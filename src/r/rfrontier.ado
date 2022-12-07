@@ -133,10 +133,6 @@ program rfrontier, eclass
 		global ld						=	`ld'
 		tempname b V ll N df_m converged sigma_v sigma_u df
 		//if "`vdistribution'"=="student" local colnames			`: colnames `b0''
-		if "`vdistribution'"=="student" {
-			mat `b0'[1,`=colsof(`b0')']				=	`b0'[1,`=colsof(`b0')-`upars'']
-			mat `b0'[1,`=colsof(`b0')-`upars''] 	=	`_lndf'
-		}
 		//if "`udistribution'"=="gamma" mat `b0'		=	(`b0',1)
 		matrix coleq `b0' = `coleq'
 		matrix colnames `b0' = `colnames'
