@@ -11,6 +11,8 @@ program rfrontier, eclass
 		local diparm_list diparm(lnsigma_v, exp label(sigma_v) prob)
 		local vpars = 1
 		local upars = 1
+		local diparm_list `diparm_list' diparm(lnsigma_u, exp label(sigma_u) prob)
+		local mlmodel_list  `mlmodel_list' /lnsigma_u
 		if inlist(`"`vdistribution'"',"student","studen","stude","stud","stu","st","s","") {
 			local vdistribution student
 			local title_vdist Student's t
@@ -18,8 +20,6 @@ program rfrontier, eclass
 			local diparm_list `diparm_list' diparm(lndf, exp label(df) prob)
 			local vpars = 2
 		}
-		local diparm_list `diparm_list' diparm(lnsigma_u, exp label(sigma_u) prob)
-		local mlmodel_list  `mlmodel_list' /lnsigma_u
 		if inlist(`"`vdistribution'"',"normal","norma","norm","nor","no","n") {
 		local vdistribution normal
 		local title_vdist normal
@@ -81,11 +81,11 @@ program rfrontier, eclass
 		marksample touse
 		gettoken yvar xvars : varlist
 		quietly {
-			if "`udistribution'" == "rayleigh" capture frontier `yvar' `xvars' if `touse', `cost'
-			else if "`udistribution'" == "gamma" capture frontier `yvar' `xvars' if `touse', `cost'
-			else capture frontier `yvar' `xvars' if `touse', `cost' d(`udistribution')
+			if "`udistribution'" == "rayleigh" capture frontier `yvar' `xvars' if `touse', `cost' `constant'
+			else if "`udistribution'" == "gamma" capture frontier `yvar' `xvars' if `touse', `cost' `constant'
+			else capture frontier `yvar' `xvars' if `touse', `cost' d(`udistribution') `constant'
 		}
-		scalar _b_cons=_b[_cons]
+		//scalar _b_cons=_b[_cons]
 		scalar `_sigma_v' 					=	ln(e(sigma_v))
 		if "`vdistribution'"=="logistic" scalar `_sigma_v'	=	ln(e(sigma_v))+1/2*ln(3)-ln(_pi)
 		scalar `_sigma_u'					=	ln(e(sigma_u))
@@ -112,10 +112,10 @@ program rfrontier, eclass
 			local coleq `coleq' mu
 		}
 		local coleq `coleq' lnsigma_v
-		if "`vdistribution'"=="student" local coleq `coleq' lndf
 		local coleq `coleq' lnsigma_u
+		if "`vdistribution'"=="student" local coleq `coleq' lndf
 		if "`udistribution'"=="gamma" local coleq `coleq' lnk
-		capture if "`vdistribution'"=="student" tregress `yvar' `xvars' if `touse'
+		capture if "`vdistribution'"=="student" tregress `yvar' `xvars' if `touse', `constant'
 		if "`vdistribution'"=="student" scalar `_lndf'		=	_b[lndf:_cons]
 		else scalar `_lndf'					=	0
 		if `df' > 0 {
