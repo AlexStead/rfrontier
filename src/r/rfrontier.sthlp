@@ -26,7 +26,7 @@
 {synoptline}
 {syntab:Model}
 {synopt:{opt nocons:tant}}suppress constant term{p_end}
-{synopt :{cmdab:v:distribution(}{opt s:tudent)}Student's t distribution for the noise term, the default{p_end}
+{synopt :{cmdab:v:distribution(}{opt s:tudent)}}Student's t distribution for the noise term, the default{p_end}
 {synopt :{cmdab:v:distribution(}{opt c:auchy)}}Cauchy distribution for the noise term{p_end}
 {synopt :{cmdab:v:distribution(}{opt l:ogistic)}}logistic distribution for the noise term{p_end}
 {synopt :{cmdab:u:distribution(}{opt h:normal)}}half normal distribution for the inefficiency term, the default{p_end}
