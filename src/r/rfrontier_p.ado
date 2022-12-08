@@ -22,16 +22,11 @@ program rfrontier_p
 		local df e(df)
 	}
 	if `neffopts' == 0{
-		if "$vdistribution" == "student" {
-			local su e(sigma_u)
-			local df exp(xb(#3))
-		}
 		local sv exp(xb(#2))
+		local su exp(xb(#3))
 		if "$vdistribution" == "student" {
-			local su exp(xb(#4))
-			local df exp(xb(#3))
+			local df exp(xb(#4))
 		}
-		else local su exp(xb(#3))
 	}
 	local sigma sqrt((`sv')^2+(`su')^2)
 	local lambda (`su')/(`sv')
@@ -141,10 +136,10 @@ program rfrontier_p
 	if "`bs'" != ""{
 		quietly {
 			tempname numerator denominator numeratorvar denominatorvar indices
-				gen double `numerator'					=	0
-			gen double `denominator'					=	0
-			gen double `numeratorvar'					=	0
-			gen double `denominatorvar'					=	0
+			//	gen double `numerator'					=	0
+			//gen double `denominator'					=	0
+			//gen double `numeratorvar'					=	0
+			//gen double `denominatorvar'					=	0
 			mata hdraws(`N',`nsimulations',`base',`burn',1,"`indices'")
 			qui ds
 			forval i = 1/`nsimulations'{
@@ -155,7 +150,7 @@ program rfrontier_p
 				if "$udistribution"=="hnormal"		local u_`q'			`su'*invnormal(1/2*(1+`f1_`q''))
 				if "$udistribution"=="exponential"	local u_`q'			-`su'*ln(`f1_`q'')
 				if "$udistribution"=="rayleigh"		local u_`q'			`su'*sqrt(-2*ln(1-`f1_`q''))
-				local fu exp(-`u_`q'')
+				local fu (exp(-`u_`q''))^2
 				if "$vdistribution"=="normal"		predictnl double `numerator'`q'		=	1/$nsimulations*`fu'/`sv'*normalden(($ML_y1-`xb_'+`s'*`u_`q'')/`sv')	
 				if "$vdistribution"=="normal"		predictnl double `denominator'`q'	=	1/$nsimulations*1/`sv'*normalden(($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
 				if "$vdistribution"=="student"		predictnl double `numerator'`q'		=	1/$nsimulations*`fu'/`sv'*tden(`df',($ML_y1-`xb_'+`s'*`u_`q'')/`sv')	
@@ -168,19 +163,19 @@ program rfrontier_p
 			egen double `numerator' = rowtotal(`numerator'*)
 			egen double `denominator' = rowtotal(`denominator'*)
 			forval q = 1/`nsimulations' {
-									local `gu'						(exp(-`u_`q'')-`numerator'/`denominator')^2
-				if "$vdistribution"=="normal"		predictnl double `numeratorvar'`q'		=	`gu'/`sv'*normalden(`df',($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
-				if "$vdistribution"=="normal"		predictnl double `denominatorvar'`q'		=	1/`sv'*normalden(`df',($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
-				if "$vdistribution"=="student"		predictnl double `numeratorvar'`q'		=	`gu'/`sv'*tden(`df',($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
-				if "$vdistribution"=="student"		predictnl double `denominatorvar'`q'		=	1/`sv'*tden(`df',($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
-				if "$vdistribution"=="cauchy"		predictnl double `numeratorvar'`q'		=	`gu'/`sv'*tden(1,($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
-				if "$vdistribution"=="cauchy"		predictnl double `denominatorvar'`q'		=	1/`sv'*tden(1,($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
-				if "$vdistribution"=="logistic"		predictnl double `numeratorvar'`q'		=	`gu'/`sv'*(exp(($ML_y1-`xb_'+`s'*`u_`q'')/`sv'))/(1+exp(($ML_y1-`xb_'+`s'*`u_`q'')/`sv'))^2
-				if "$vdistribution"=="logistic"		predictnl double `denominatorvar'`q'		=	1/`sv'*(exp(($ML_y1-`xb_'+`s'*`u_`q'')/`sv'))/(1+exp(($ML_y1-`xb_'+`s'*`u_`q'')/`sv'))^2
+				local gu exp(-`u_`q'')
+				if "$vdistribution"=="normal"		predictnl double `numeratorvar'`q'	=	1/$nsimulations*`gu'/`sv'*normalden(($ML_y1-`xb_'+`s'*`u_`q'')/`sv')	
+				if "$vdistribution"=="normal"		predictnl double `denominatorvar'`q'	=	1/$nsimulations*1/`sv'*normalden(($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
+				if "$vdistribution"=="student"		predictnl double `numeratorvar'`q'	=	1/$nsimulations*`gu'/`sv'*tden(`df',($ML_y1-`xb_'+`s'*`u_`q'')/`sv')	
+				if "$vdistribution"=="student"		predictnl double `denominatorvar'`q'	=	1/$nsimulations*1/`sv'*tden(`df',($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
+				if "$vdistribution"=="cauchy"		predictnl double `numeratorvar'`q'	=	1/$nsimulations*`gu'/`sv'*tden(1,($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
+				if "$vdistribution"=="cauchy"		predictnl double `denominatorvar'`q'	=	1/$nsimulations*1/`sv'*tden(1,($ML_y1-`xb_'+`s'*`u_`q'')/`sv')
+				if "$vdistribution"=="logistic"		predictnl double `numeratorvar'`q'	=	1/$nsimulations*`gu'/`sv'*(exp(($ML_y1-`xb_'+`s'*`u_`q'')/`sv'))/(1+exp(($ML_y1-`xb_'+`s'*`u_`q'')/`sv'))^2
+				if "$vdistribution"=="logistic"		predictnl double `denominatorvar'`q'	=	1/$nsimulations*1/`sv'*(exp(($ML_y1-`xb_'+`s'*`u_`q'')/`sv'))/(1+exp(($ML_y1-`xb_'+`s'*`u_`q'')/`sv'))^2
 			}
 			egen double `numeratorvar' = rowtotal(`numeratorvar'*)
 			egen double `denominatorvar' = rowtotal(`denominatorvar'*)
-			gen `typlist' `varlist'						=	`numeratorvar'/`denominatorvar'
+			gen `typlist' `varlist'						=	(`numerator'/`denominator')-(`numeratorvar'/`denominatorvar')^2
 		}
 	}
 	if `ninfopts' > 0 {
