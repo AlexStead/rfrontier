@@ -181,11 +181,10 @@ program rfrontier_p
 	if `ninfopts' > 0 {
 		quietly{
 			local sv exp(xb(#2))
+			local su exp(xb(#3))
 			if "$vdistribution" == "student" {
-				local su exp(xb(#4))
-				local df exp(xb(#3))
+				local df exp(xb(#4))
 			}
-			else local su exp(xb(#3))
 			local sigma sqrt((`sv')^2+(`su')^2)
 			local lambda (`su')/(`sv')
 			local gamma (`su')^2/(`sigma')^2
@@ -218,12 +217,12 @@ program rfrontier_p
 				svmat double `influencemat', name(`influencepar')
 				if "$vdistribution" == "student" {
 					replace `influencepar'`=`npar'-2' = `influencepar'`=`npar'-2'*exp(_b[lnsigma_v:_cons])
-					replace `influencepar'`=`npar'' = `influencepar'`=`npar'='*exp(_b[lnsigma_u:_cons])
-					replace `influencepar'`=`npar'-1' = `influencepar'`=`npar'-1'*exp(_b[lndf:_cons])
+					replace `influencepar'`=`npar'-1' = `influencepar'`=`npar'-1'*exp(_b[lnsigma_u:_cons])
+					replace `influencepar'`=`npar'' = `influencepar'`=`npar''*exp(_b[lndf:_cons])
 				}
 				else {
 					replace `influencepar'`=`npar'-1' = `influencepar'`=`npar'-1'*exp(_b[lnsigma_v:_cons])
-					replace `influencepar'`=`npar'' = `influencepar'`=`npar'='*exp(_b[lnsigma_u:_cons])				
+					replace `influencepar'`=`npar'' = `influencepar'`=`npar''*exp(_b[lnsigma_u:_cons])				
 				}
 				forval i = 1/`npar'{
 					gen `typlist' `varlist'`i'						=	`influencepar'`i'
