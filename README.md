@@ -18,5 +18,6 @@ help rfrontier_postestimation
 
 ## Linked publications
 
+- Stead AD, Wheat P, Greene WH. In press. Robust maximum likelihood estimation of stochastic frontier models. European Journal of Operational Research. https://doi.org/10.1016/j.ejor.2022.12.033
 - Wheat P, Stead AD, Greene WH. 2019. Robust stochastic frontier analysis: a Student’s t-half normal model with application to highway maintenance costs in England. Journal of Productivity Analysis. 51(1), pp. 21-38, https://doi.org/10.1007/s11123-018-0541-y
 - Stead AD, Wheat P, Greene WH. 2018. Estimating efficiency in the presence of extreme outliers: A logistic-half normal stochastic frontier model with application to highway maintenance costs in England. In: Greene WH; Khalaf L; Makdissi P; Sickles RC; Veall MR; Voia M-C (eds.) Productivity and Inequality. Springer Proceedings in Business and Economics. Springer International Publishing, pp. 1-19, https://doi.org/10.1007/978-3-319-68678-3_1
