@@ -115,8 +115,8 @@ program rfrontier, eclass
 		local coleq `coleq' lnsigma_u
 		if "`vdistribution'"=="student" local coleq `coleq' lndf
 		if "`udistribution'"=="gamma" local coleq `coleq' lnk
-		capture if "`vdistribution'"=="student" tregress `yvar' `xvars' if `touse', `constant'
-		if "`vdistribution'"=="student" scalar `_lndf'		=	_b[lndf:_cons]
+		capture if "`vdistribution'"=="student" & `df'==0 tregress `yvar' `xvars' if `touse', `constant'
+		if "`vdistribution'"=="student" & `df'==0 scalar `_lndf =	_b[lndf:_cons]
 		else scalar `_lndf'					=	0
 		if `df' > 0 {
 			local lndf = ln(`df')
